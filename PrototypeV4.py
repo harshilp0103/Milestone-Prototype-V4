@@ -12,13 +12,13 @@ import folium
 from streamlit_folium import st_folium
 from PIL import Image
 from PyPDF2 import PdfReader
+import json
 
 st.set_page_config(page_title="Flood Preparedness & Reporting", layout="wide")
 
 # Initialize Firebase app
-cred = credentials.Certificate("/Users/harshilpurohit/Desktop/AI Project Milestone 4/floodguard-ai-firebase-adminsdk-1gehw-297a26cec3.json")
-if not firebase_admin._apps:
-    firebase_admin.initialize_app(cred)
+firebase_cred_json = json.loads(st.secrets["firebase_credentials"])
+cred = credentials.Certificate(firebase_cred_json)
 
 # Initialize Firestore client
 db = firestore.client()
@@ -213,7 +213,7 @@ elif option == "Flood Preparedness Advisor":
         st.subheader("Flood Preparedness Advisor")
     
     # Path to the PDF file
-    pdf_path = r"/Users/harshilpurohit/AI Milestone/Get Flood Ready Essential Tips _ Santa Clara Valley Water.pdf"
+    pdf_path = "/Users/harshilpurohit/AI Milestone/Get Flood Ready Essential Tips _ Santa Clara Valley Water.pdf"
     
     # Extract text from the PDF
     pdf_content = extract_text_from_pdf(pdf_path)
